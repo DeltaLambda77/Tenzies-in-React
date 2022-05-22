@@ -2,7 +2,9 @@ import React from "react"
 import Die from "./components/Die.js"
 export default function App() {
 
-    allNewDice()
+    const [dice, setDice] = React.useState(allNewDice())
+
+    
 
     function allNewDice() {
         const diceArray = [];
@@ -13,43 +15,20 @@ export default function App() {
             console.log(diceArray);
         }
         return diceArray
-        
     }
+
+    function rerollDice() {
+        setDice(allNewDice())
+    }
+    const diceElements = dice.map(die => <Die value={die} />)
 
     return (
         <main>
             <div className="dice-container">  
-                <Die 
-                    value={1}
-                />
-                <Die 
-                    value={1}
-                />
-                <Die 
-                    value={1}
-                />
-                <Die 
-                    value={1}
-                />
-                <Die 
-                    value={1}
-                />
-                <Die 
-                    value={1}
-                />
-                <Die 
-                    value={1}
-                />
-                <Die 
-                    value={1}
-                />
-                <Die 
-                    value={1}
-                />
-                <Die 
-                    value={1}
-                />
-            </div>  
+               {diceElements}
+            </div>
+            <button className="reroll-button" onClick={rerollDice}>Roll Dice</button>  
         </main>
+        
     )
 }
