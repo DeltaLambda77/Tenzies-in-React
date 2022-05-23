@@ -5,26 +5,45 @@ export default function App() {
 
     const [dice, setDice] = React.useState(allNewDice())
 
-    
+    function newDie() {
+        return {
+            value: Math.ceil(Math.random() * 6),
+            isHeld: false,
+            id: nanoid()
+        }
+    }
 
     function allNewDice() {
         const diceArray = [];
 
         for (let i = 0; i < 10; i++) {
-            diceArray[i] = ({
-                value: Math.ceil(Math.random() * 6),
-                isHeld: false,
-                id: nanoid()
-            })
-            console.log(diceArray);
+            diceArray[i] = (newDie())
+            console.log(diceArray)
         }
         return diceArray
     }
 
     function rerollDice() {
-        setDice(allNewDice())
+        setDice(oldDice => oldDice.map(die => {
+            return die.isHeld ? die : newDie()
+        }))
     }
-    const diceElements = dice.map(die => <Die value={die.value} key={die.id} />)
+
+    const diceElements = dice.map(die => 
+        <Die 
+            value={die.value} 
+            key={die.id} 
+            isHeld={die.isHeld} 
+            holdDice={() => holdDice(die.id)}
+        />)
+
+    function holdDice(id) {
+        setDice(oldDice => oldDice.map(die => {
+            return die.id === id 
+            ? {...die, isHeld: !die.isHeld}
+            : die
+        }))
+    }
 
     return (
         <main>
