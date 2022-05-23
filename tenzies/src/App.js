@@ -5,6 +5,12 @@ export default function App() {
 
     const [dice, setDice] = React.useState(allNewDice())
 
+    const [tenzies, setTenzies] = React.useState(false)
+
+    React.useEffect(() => {
+        console.log("Dice state changed")
+    }, [dice])
+
     function newDie() {
         return {
             value: Math.ceil(Math.random() * 6),
@@ -47,6 +53,8 @@ export default function App() {
 
     return (
         <main>
+            <h1>Tenzies</h1>
+            <p>Roll until all dice have the same value!</p>
             <div className="dice-container">  
                {diceElements}
             </div>
