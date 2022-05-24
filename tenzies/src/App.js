@@ -1,6 +1,7 @@
 import React from "react"
 import Die from "./components/Die.js"
 import {nanoid} from "nanoid"
+
 export default function App() {
 
     const [dice, setDice] = React.useState(allNewDice())
@@ -35,9 +36,15 @@ export default function App() {
     }
 
     function rerollDice() {
-        setDice(oldDice => oldDice.map(die => {
-            return die.isHeld ? die : newDie()
-        }))
+        if (!tenzies) {
+            setDice(oldDice => oldDice.map(die => {
+                return die.isHeld ? die : newDie()
+            }))
+        }
+        else {
+            setTenzies(false)
+            setDice(allNewDice())
+        }
     }
 
     const diceElements = dice.map(die => 
@@ -60,10 +67,13 @@ export default function App() {
         <main>
             <h1>Tenzies</h1>
             <p>Roll until all dice have the same value!</p>
+
             <div className="dice-container">  
                {diceElements}
             </div>
-            <button className="reroll-button" onClick={rerollDice}>Roll Dice</button>  
+            <button className="reroll-button" onClick={rerollDice}>
+                {tenzies ? "New Game" :"Roll Dice"}
+            </button>  
         </main>
         
     )
